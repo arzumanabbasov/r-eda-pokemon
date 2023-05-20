@@ -1,57 +1,44 @@
-# install required libraries
-install.packages(c("readr", "RColorBrewer", "ggplot2", "treemapify", "dplyr"))
+# Pokemon Dataset Analysis
 
-# load required libraries
-library(readr)
-library(RColorBrewer)
-library(ggplot2)
-library(treemapify)
-library(dplyr)
+This project analyzes a dataset of Pokemon using R programming language. It explores various aspects of the dataset, such as types, attributes, generations, and more. The analysis includes visualizations and insights into different subsets of Pokemon based on their types.
 
-# loading dataset
-pokemon <- read_csv("Pokemon.csv")
+## Dataset
 
-# show dataset
-head(pokemon)
+The dataset used in this project is named "Pokemon.csv". It contains information about different Pokemon, including their primary and secondary types, attributes like HP, speed, attack, defense, and more. The dataset is in CSV format and is loaded using the `readr` library.
 
-## Analyzing Dataset
+## Analysis
 
-# information about data
-cat("Number of rows: ", nrow(pokemon))
-cat("\nNumber of columns: ", ncol(pokemon))
-cat("\nNumber of rows with null values: ", sum(is.na(pokemon)))
+The project performs the following analyses on the Pokemon dataset:
 
-# creating new dataset with types and number of pokemons
-types <- as.data.frame(table(pokemon$`Type 1`))
-# show new dataset
-head(types)
+- Information about the dataset, including the number of rows, columns, and missing values.
+- Types and number of Pokemons: A treemap visualization shows the distribution of Pokemon types and their counts.
+- Types and total attributes: A bar chart displays the average total attributes for each type.
+- Generations: A pie chart illustrates the distribution of Pokemon across different generations.
+- Legendary status: A bar chart presents the number of legendary and non-legendary Pokemon.
+- Physical abilities: Information about the minimum and maximum values of special attack (Sp. Atk), special defense (Sp. Def), and HP attributes.
 
-# create treemap visualization of types and number of pokemons
-treemap_types <- ggplot(types, aes(area = Freq, fill = Var1, label = paste(Var1, Freq, sep = "\n"))) +
-  geom_treemap() +
-  geom_treemap_text(colour = "white", place = "centre", size = 15)
-print(treemap_types + mynamestheme + labs(title = "Types and Number of Pokemons"))
+The analysis further focuses on specific types of Pokemon, such as Grass, Fire, and Water, providing insights into their attributes, legendary status, generation distribution, and more.
 
-# create new dataset with Types and Total columns
-types_by_total <- as.data.frame(aggregate(pokemon$Total, list(pokemon$`Type 1`), FUN = mean))
-# show new dataset
-head(types_by_total)
+## Usage
 
-# create bar chart presenting types_by_total dataset
-barplot(types_by_total$x, names.arg = types_by_total$`Group.1`, xlab = "Types", ylab = "Total", col = "darkblue")
+To run this project, follow these steps:
 
-# create new dataset with generation and number of pokemons
-generation <- as.data.frame(table(pokemon$Generation))
+1. Install the required R packages: `readr`, `RColorBrewer`, `ggplot2`, `treemapify`, and `dplyr`.
+2. Place the "Pokemon.csv" file in the same directory as the R script.
+3. Open the R script in an R environment (e.g., RStudio).
+4. Run the script line by line or as a whole to perform the analysis.
+5. Review the generated visualizations and insights.
 
-# create pie chart for generations
-pie(generation$Freq, labels = generation$Var1, main = "Generations", col = brewer.pal(6, "PuBu"))
+Feel free to modify the code or explore additional analyses based on your requirements.
 
-# analyze how many pokemons are legendary or not
-legbar <- ggplot(data = pokemon, aes(x = Legendary)) + geom_bar(fill = "deepskyblue4")
-print(legbar + mynamestheme + labs(title = "Is Legendary?", y = "Number of pokemons", x = "True or False"))
+## Dependencies
 
-# General information about pokemon's physical abilities
-cat("Minimum of Sp Attack: ", min(pokemon$`Sp. Atk`))
-cat("\nMaximum of Sp Attack: ", max(pokemon$`Sp. Def`))
-cat("\nMinimum of HP: ", min(pokemon$HP))
-cat("\nMaximum of HP: ", max(pokemon$HP))
+This project relies on the following R packages:
+
+- `readr`: For reading the CSV dataset.
+- `RColorBrewer`: For color palettes in visualizations.
+- `ggplot2`: For creating visualizations.
+- `treemapify`: For creating treemap visualizations.
+- `dplyr`: For data manipulation.
+
+Ensure that these packages are installed before running the script.
